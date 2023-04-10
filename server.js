@@ -1,12 +1,22 @@
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+const Post = require('./models/post');
+const Contact = require('./models/contact');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 
 const PORT = 3000;
+const db =
+  'mongodb+srv://userD:Dima8792@cluster0.4gj1g5s.mongodb.net/node-blog?retryWrites=true&w=majority';
+
+mongoose
+  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((res) => console.log('Connected to DB'))
+  .catch((error) => console.log(error));
 
 const createPath = (page) =>
   path.resolve(__dirname, 'ejs-views', `${page}.ejs`);
@@ -30,55 +40,45 @@ app.get('/', (req, res) => {
 
 app.get('/contacts', (req, res) => {
   const title = 'Contacts';
-  const contacts = [
-    {
-      name: 'Youtube',
-      link: 'https://www.youtube.com/',
-      name: 'Twitter',
-      link: 'https://www.twitter.com/',
-      name: 'Github',
-      link: 'https://www.github.com/',
-    },
-  ];
-  res.render(createPath('contacts'), { contacts, title });
+  Contact.find()
+    .then((contacts) => res.render(createPath('contacts'), { contacts, title }))
+    .catch((error) => {
+      console.log(error);
+      res.render(createPath('error'), { title: 'Error' });
+    });
 });
 
 app.get('/posts/:id', (req, res) => {
   const title = 'Post';
-  const post = {
-    id: '1',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quidem provident, dolores, vero laboriosam nemo mollitia impedit unde fugit sint eveniet, minima odio ipsum sed recusandae aut iste aspernatur dolorem.',
-    title: 'Post title',
-    date: '05.05.2021',
-    author: 'Yauhen',
-  };
-  res.render(createPath('post'), { title, post });
+  Post.findById(req.params.id)
+    .then((post) => res.render(createPath('post'), { title, post }))
+    .catch((error) => {
+      console.log(error);
+      res.render(createPath('error'), { title: 'Error' });
+    });
 });
 
 app.get('/posts', (req, res) => {
   const title = 'Posts';
-  const posts = [
-    {
-      id: '1',
-      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quidem provident, dolores, vero laboriosam nemo mollitia impedit unde fugit sint eveniet, minima odio ipsum sed recusandae aut iste aspernatur dolorem.',
-      title: 'Post title',
-      date: '05.05.2021',
-      author: 'Yauhen',
-    },
-  ];
-  res.render(createPath('posts'), { title, posts });
+  Post.find()
+    .sort({ createdAt: -1 })
+    .then((posts) => res.render(createPath('posts'), { title, posts }))
+    .catch((error) => {
+      console.log(error);
+      res.render(createPath('error'), { title: 'Error' });
+    });
 });
 
 app.post('/add-post', (req, res) => {
   const { title, author, text } = req.body;
-  const post = {
-    id: new Date(),
-    title,
-    author,
-    text,
-    date: new Date().toLocaleDateString(),
-  };
-  res.render(createPath('post'), { post, title });
+  const post = new Post({ title, author, text });
+  post
+    .save()
+    .then((result) => res.redirect('/posts'))
+    .catch((error) => {
+      console.log(error);
+      res.render(createPath('error'), { title: 'Error' });
+    });
 });
 
 app.get('/add-post', (req, res) => {
