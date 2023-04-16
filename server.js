@@ -1,7 +1,10 @@
 const express = require('express');
+
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+
+require('dotenv').config();
 
 const postRoutes = require('./routes/post-routes');
 const contactRoutes = require('./routes/contact-routes');
@@ -13,17 +16,18 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-const PORT = 3000;
-const db =
-  'mongodb+srv://userD:Dima8792@cluster0.4gj1g5s.mongodb.net/node-blog?retryWrites=true&w=majority';
-
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log('Connected to DB'))
   .catch((error) => console.log(error));
 
-app.listen(PORT, (error) => {
-  error ? console.log(error) : console.log(`listening port ${PORT}`);
+app.listen(process.env.PORT, (error) => {
+  error
+    ? console.log(error)
+    : console.log(`listening port ${process.env.PORT}`);
 });
 
 app.use(

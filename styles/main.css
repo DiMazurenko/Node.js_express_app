@@ -1,10 +1,10 @@
 body {
-  padding-top: 80px;
+  padding: 80px;
   min-height: calc(100vh - 90px);
   font-family: 'Montserrat', sans-serif;
   font-size: 20px;
-  background: linear-gradient(to bottom, #00d2ff, #928dab);
-  color: #fff;
+  background: white;
+  color: #000000;
 }
 
 h1 {
@@ -19,7 +19,6 @@ nav {
   min-height: 60px;
   display: flex;
   justify-content: flex-end;
-  background-color: rgba(0, 0, 0, 0.7);
 }
 
 nav ul {
@@ -44,11 +43,12 @@ ul {
 
 a {
   text-decoration: none;
-  color: #fff;
+  font-weight: 800;
+  color: black;
 }
 
 article {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(214, 214, 214, 0.4);
   padding: 10px 20px;
   border-radius: 3px;
   margin-bottom: 10px;
@@ -66,11 +66,11 @@ article {
 }
 
 h2 a {
-  color: aqua;
+  color: rgb(0, 0, 0);
 }
 
 form {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(221, 221, 221, 0.4);
   padding: 10px 20px;
   border-radius: 3px;
   display: flex;
@@ -97,8 +97,8 @@ input,
 textarea {
   min-height: 30px;
   border: 1px solid #000;
-  background-color: rgba(0, 0, 0, 0.4);
-  color: #fff;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: black;
   font-size: 18px;
   padding: 3px 5px;
   outline: none;
@@ -121,7 +121,7 @@ textarea {
 }
 
 .form-button input:hover {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(92, 254, 38, 0.6);
 }
 
 .home,
@@ -133,8 +133,8 @@ textarea {
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
   font-size: 20px;
-  background: linear-gradient(to bottom, #00d2ff, #928dab);
-  color: #fff;
+  background: linear-gradient(to bottom, #ffffff, #928dab);
+  color: black;
   padding-top: 0;
 }
 
@@ -172,7 +172,7 @@ textarea {
 
 .btn-edit,
 .btn-delete:hover {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(59, 255, 33, 0.6);
 }
 
 .btn-edit {
